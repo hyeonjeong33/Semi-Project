@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="board.mapper">
+	<resultMap type="BoardDto" id="dtoMap">
+		<result column="BOARD_CATEGORY" property="board_category"/>
+		<result column="BOARD_POSTNUM" property="board_postnum"/>
+		<result column="BOARD_GROUPNUM" property="board_groupnum"/>
+		<result column="BOARD_GROUPORDER" property="board_grouporder"/>	
+		<result column="TITLETAB" property="titletab"/>
+		<result column="WRITER" property="writer"/>
+		<result column="BOARD_TITLE" property="board_title"/>	
+		<result column="BOARD_CONTENT" property="board_content"/>	
+		<result column="BOARD_REGDATE" property="board_regdate"/>
+		<result column="BOARD_VIEWS" property="board_views"/>	
+	</resultMap>
+	
+	<!-- 자유게시판 -->
+	<select id="searchlist1" parameterType="HashMap" resultType="BoardDto">
+		SELECT *
+		FROM BOARD
+		WHERE BOARD_CATEGORY = 1
+		<!-- WHERE ${field} LIKE '%'||#{keyword}||'%' -->
+		
+		<choose>
+		<when test="field.equals('board_title')">
+		AND BOARD_TITLE LIKE '%'||#{keyword}||'%'
+		</when>
+		<when test="field.equals('writer')">
+		AND WRITER LIKE '%'||#{keyword}||'%'
+		</when>
+		<otherwise>
+		AND BOARD_CONTENT LIKE '%'||#{keyword, jdbcType=VARCHAR}||'%'
+		</otherwise> 
+		</choose>
+	</select>
+	
+	<!-- 후기게시판 -->
+	<select id="searchlist2" parameterType="HashMap" resultType="BoardDto">
+		SELECT *
+		FROM BOARD
+		WHERE BOARD_CATEGORY = 2
+		AND (BOARD_TITLE LIKE '%'||#{keyword}||'%' 
+		OR BOARD_CONTENT LIKE '%'||#{keyword}||'%')
+	</select>
+	
+	<!-- 이벤트게시판 -->
+<!-- 	<select id="selectlist" parameterType="int" resultType="BoardDto">
+		SELECT * FROM BOARD WHERE BOARD_CATEGORY = #{board_category} 
+		ORDER BY BOARD_POSTNUM DESC, BOARD_GROUPNUM DESC, BOARD_GROUPORDER
+	</select> -->
+	
+	<select id="searchlist" parameterType="HashMap" resultType="BoardDto">
+		SELECT *
+		FROM BOARD
+		WHERE BOARD_CATEGORY = 3
+		<!-- WHERE ${field} LIKE '%'||#{keyword}||'%' -->
+		
+		<choose>
+		<when test="field.equals('board_title')">
+		AND BOARD_TITLE LIKE '%'||#{keyword}||'%'
+		</when>
+		<when test="field.equals('writer')">
+		AND WRITER LIKE '%'||#{keyword}||'%'
+		</when>
+		<when test="field.equals('board_content')">
+		AND BOARD_CONTENT LIKE '%'||#{keyword}||'%'
+		</when>
+		</choose>
+		
+	</select>
+	
+	<select id="selectOne"  parameterType="map" resultMap="dtoMap">
+		SELECT * FROM BOARD WHERE BOARD_POSTNUM = #{board_postnum}
+	</select>
+
+	<insert id="insert" parameterType="BoardDto">
+		INSERT INTO BOARD VALUES(#{board_category}, POSTNUMSEQ.NEXTVAL, GROUPNUMSEQ.NEXTVAL, 1, 0, #{writer}, #{board_title}, #{board_content}, SYSDATE, 0)
+	</insert>
+	
+	<delete id="delete" parameterType="BoardDto">
+		DELETE FROM BOARD WHERE BOARD_POSTNUM = #{board_postnum}	
+	</delete>
+	
+	<update id="update" parameterType="BoardDto">
+		UPDATE BOARD SET BOARD_TITLE = #{board_title}, BOARD_CONTENT = #{board_content} WHERE BOARD_POSTNUM = #{board_postnum}
+	</update>
+	
+	<insert id="answer" parameterType="BoardDto">
+		INSERT INTO BOARD VALUES(1, POSTNUM.NEXTVAL,
+		(SELECT BOARD_GROUPNUM FROM BOARD WHERE BOARD_POSTNUM = #{board_postnum}),		<!-- 그룹번호 -->
+		(SELECT BOARD_GROUPORDER FROM BOARD WHERE BOARD_POSTNUM = #{board_postnum})+1, 	<!-- 그룹순서 -->
+		(SELECT TITLETAB FROM BOARD WHERE BOARD_POSTNUM = #{board_postnum} )+1,		<!-- 들여쓰기 -->
+		#{writer}, "RE"+#{board_title}, #{board_content}, SYSDATE, 0)
+	</insert>
+
+	<select id="getTotal" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM BOARD WHERE BOARD_CATEGORY = #{board_category}
+	</select>
+	
+<!-- 	<select id="selectlistPaging" parameterType="map" resultType="BoardDto">
+		SELECT RN ,BOARD_CATEGORY, BOARD_POSTNUM, BOARD_GROUPNUM, BOARD_GROUPORDER,
+		TITLETAB, WRITER, BOARD_TITLE, BOARD_CONTENT, BOARD_REGDATE, BOARD_VIEWS
+		FROM (SELECT ROWNUM as RN ,BOARD_CATEGORY, BOARD_POSTNUM, BOARD_GROUPNUM, BOARD_GROUPORDER,
+		TITLETAB, WRITER, BOARD_TITLE, BOARD_CONTENT, BOARD_REGDATE, BOARD_VIEWS 
+		FROM (SELECT BOARD_CATEGORY, BOARD_POSTNUM, BOARD_GROUPNUM, BOARD_GROUPORDER,
+		TITLETAB, WRITER, BOARD_TITLE, BOARD_CONTENT, BOARD_REGDATE, BOARD_VIEWS 
+		FROM BOARD ORDER BY BOARD_POSTNUM DESC, BOARD_GROUPNUM DESC, BOARD_GROUPORDER))
+		WHERE BOARD_CATEGORY = #{board_category}
+		AND (RN BETWEEN #{from} AND #{to})
+	</select> -->
+	
+		<select id="selectlistPaging" parameterType="map" resultType="BoardDto">
+		SELECT RN ,BOARD_CATEGORY, BOARD_POSTNUM, BOARD_GROUPNUM, BOARD_GROUPORDER,
+		TITLETAB, WRITER, BOARD_TITLE, BOARD_CONTENT, BOARD_REGDATE, BOARD_VIEWS
+		FROM (SELECT ROWNUM as RN ,BOARD_CATEGORY, BOARD_POSTNUM, BOARD_GROUPNUM, BOARD_GROUPORDER,
+		TITLETAB, WRITER, BOARD_TITLE, BOARD_CONTENT, BOARD_REGDATE, BOARD_VIEWS 
+		FROM (SELECT BOARD_CATEGORY, BOARD_POSTNUM, BOARD_GROUPNUM, BOARD_GROUPORDER,
+		TITLETAB, WRITER, BOARD_TITLE, BOARD_CONTENT, BOARD_REGDATE, BOARD_VIEWS 
+		FROM BOARD WHERE BOARD_CATEGORY = #{board_category} ORDER BY BOARD_POSTNUM DESC, BOARD_GROUPNUM DESC, BOARD_GROUPORDER))
+		WHERE (RN BETWEEN #{from} AND #{to})
+		</select>
+
+</mapper>

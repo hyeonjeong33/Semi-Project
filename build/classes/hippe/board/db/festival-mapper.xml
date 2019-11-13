@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="festival.mapper">
+
+  <select id="selectList" resultType="FestivalDto">
+  		SELECT * FROM FESTIVAL 
+		WHERE FESTIVAL_TICKET IN 'Y'
+		AND FESTIVAL_IMGSRC NOT IN 'undefined'
+  </select>
+
+  <select id="selectOne" parameterType="map" resultType="FestivalDto">
+  		SELECT * FROM FESTIVAL WHERE FESTIVAL_NUM = #{festival_num}
+  </select>
+
+  <select id="selectSeason" parameterType="map" resultType="FestivalDto">
+		SELECT * FROM FESTIVAL
+		WHERE SUBSTR(festival_start,6,2) IN
+		<choose>
+			<when test="season =='spring'">
+				('03','04','05')
+			</when>
+			<when test="season =='summer'">
+				('06','07','08')
+			</when>
+			<when test="season == 'fall'">
+			
+				('09','10','11')
+			</when>
+			<when test="season == 'winter'">
+				('12','01','02')
+			</when>
+		</choose>
+	</select>
+	
+	<select id="selectMonthly" parameterType="map" resultType="FestivalDto">
+		SELECT * FROM FESTIVAL
+		WHERE SUBSTR(festival_start,6,2) IN
+		<choose>
+			<when test="monthly == 'January'">
+				('01')
+			</when>
+			<when test="monthly == 'February'">
+				('02')
+			</when>
+			<when test="monthly == 'March'">
+				('03')
+			</when>
+			<when test="monthly == 'April'">
+				('04')
+			</when>
+			<when test="monthly == 'May'">
+				('05')
+			</when>
+			<when test="monthly == 'June'">
+				('06')
+			</when>
+			<when test="monthly == 'July'">
+				('07')
+			</when>
+			<when test="monthly == 'August'">
+				('08')
+			</when>
+			<when test="monthly == 'September'">
+				('09')
+			</when>
+			<when test="monthly == 'October'">
+				('10')
+			</when>
+			<when test="monthly == 'November'">
+				('11')
+			</when>
+			<when test="monthly == 'December'">
+				('12')
+			</when>
+
+		</choose>
+	</select>
+	
+	<select id="selectCity" parameterType="map" resultType="festivalDto">
+	SELECT * FROM FESTIVAL 
+	WHERE SUBSTR(FESTIVAL_ADDRESS, 1, INSTR(FESTIVAL_ADDRESS, ' ', 1, 1)-1) IN 
+		<choose>
+			<when test="region == 'seoul'">
+			('서울특별시')
+			</when>
+			<when test="region == 'gyeongi'">
+			('경기도','인천광역시')
+			</when>
+			<when test="region == 'gangwon'">
+			('강원도')
+			</when>
+			<when test="region == 'Chungnam'">
+			('세종특별')
+			</when>
+			<when test="region == 'chungnam'">
+			('충청남도','대전광역시')
+			</when>
+			<when test="region == 'chungbuk'">
+			('충청북도')
+			</when>
+			<when test="region == 'gyeongnam'">
+			('경상남도','부산광역시','울산광역시')
+			</when>
+			<when test="region == 'gyeongbuk'">
+			('경상북도','대구광역시')
+			</when>
+			<when test="region == 'jeonnam'">
+			('전라남도','광주광역시')
+			</when>
+			<when test="region == 'jeonbuk'">
+			('전라북도')
+			</when>
+			<when test="region == 'jeju'">
+			('제주도')
+			</when>
+		</choose>
+	</select>
+  	 
+  	<select id="selectRecommend" resultType="FestivalDto">
+  		SELECT * FROM FESTIVAL
+		WHERE FESTIVAL_START > TO_CHAR(SYSDATE,'YYYY-MM-DD')
+  	</select>
+  	
+  	
+</mapper>

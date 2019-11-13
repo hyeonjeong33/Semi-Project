@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+
+#center {
+	position: absolute;
+	top:5px;
+}
+
+#button {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 14px; 
+	color: rgb(255, 255, 255); 
+	text-align: center; 
+	background-color: rgb(89, 202, 183); 
+	width: 60px; height: 26px;
+}
+
+#radio {
+	margin-left: 65%;
+}
+
+table {
+	border: none;
+}
+
+td {
+	border-bottom: 1px solid #ccc;
+}
+
+#div1 {
+	position: absolute;
+	margin-left: -12%;
+	width: 200px; 
+	height: 150px; 
+	background-color: rgb(244, 244, 244); 
+	text-align: center;
+}
+
+#div2 {
+	position: absolute;
+	top: 425px;
+	margin-left: -12%;
+	width: 200px; 
+	height: 250px;
+	background-color: rgb(244, 244, 244); 
+	text-align: center;
+}
+
+#img1 {
+	margin-left: 2.5%;
+}
+
+button {
+	margin-top: 3%;
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="reservation.mapper">
+
+	<resultMap type="MyOrderDto" id="dtoMap">
+		<result column="RESERVATION_ID" property="reservation_id" />
+		<result column="RESERVATION_F_NUM" property="reservation_f_num" />
+		<result column="RESERVATION_NUM" property="reservation_num" />
+		<result column="RESERVATION_QUANTITY" property="reservation_quantity" />
+		<result column="RESERVATION_TOTALPRICE" property="reservation_totalprice" />
+		<result column="RESERVATION_DATE" property="reservation_date"/>
+		<result column="RESERVATION_STATUS" property="reservation_status" />
+		<result column="RESERVATION_CANCELLABEL" property="reservation_cancellabel" />
+		<result column="FESTIVAL_NUM" property="festival_num"/>
+		<result column="FESTIVAL_NAME" property="festival_name"/>
+		<result column="FESTIVAL_CONTENT" property="festival_content"/>
+		<result column="FESTIVAL_START" property="festival_start"/>
+		<result column="FESTIVAL_END" property="festival_end"/>
+		<result column="FESTIVAL_LOCATION" property="festival_location"/>
+		<result column="FESTIVAL_TICKET" property="festival_ticket"/>
+		<result column="FESTIVAL_PRICE" property="festival_price"/>
+		<result column="FESTIVAL_IMGSRC" property="festival_imgsrc"/>
+	</resultMap>
+
+	<insert id="insert-reserve" parameterType="ReservationDto">
+		INSERT INTO RESERVATION 
+		VALUES( RESERVATIONSEQ.NEXTVAL, #{reservation_id}, #{reservation_f_num}, #{reservation_quantity},
+		#{reservation_totalprice}, SYSDATE, '예약완료' , 'N')
+	</insert>
+	
+	<select id="selectList" parameterType="map" resultType="MyOrderDto">
+		SELECT * FROM RESERVATION
+		JOIN FESTIVAL 
+		ON FESTIVAL_NUM = RESERVATION_F_NUM
+		WHERE RESERVATION_ID = #{member_id}
+	</select>
+	
+	<delete id="delete" parameterType="map">
+		DELETE FROM RESERVATION WHERE RESERVATION_NUM = #{num}
+	</delete>
+
+</mapper>

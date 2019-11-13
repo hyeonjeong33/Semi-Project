@@ -1,0 +1,103 @@
+@charset "UTF-8";
+
+.div_mid{
+	border: 1px solid red;
+	width : 50%;
+	height: auto;
+	position : absolute;
+	top: 35%;
+	left: 25%;
+}
+
+.div_top_title{
+
+	position: absolute;
+    top: -42%;
+    left: 34%
+}
+
+.div_box{
+	width: 40%;
+	height : 180px;
+	background-color: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: dotted;
+    border-color: rgb(51, 51, 51);
+    display: inline-flex;
+    margin : 10px;
+    font-size: 14px; 
+    color:#000;
+}
+
+#mypage_img{
+	top: 40px;
+}
+#reset{
+	font-weight: normal; 
+	font-size: 25px;
+}
+#reservations2{
+	color: rgb(255, 255, 255); 
+	text-align: center; 
+	line-height: 2.3em; 
+	border-radius: 4px;
+	background-color: rgb(89, 202, 183); 
+	width: 70px; 
+	height: 35px; 
+	margin-top: 137px;
+    margin-left: 205px;
+}
+#modify{
+	position: absolute;
+    top: 148px;
+    left: 317px;
+	font-size: 14px; 
+	color: rgb(255, 255, 255); 
+	text-align: center; 
+	line-height: 2.3em; 
+	border-radius: 4px;
+	background-color: rgb(89, 202, 183); 
+	width: 70px; 
+	height: 35px;
+	z-index: 100px;
+}
+#modify2{
+	
+    color: rgb(255, 255, 255);
+    text-align: center;
+    line-height: 2.3em;
+    border-radius: 4px;
+    background-color: rgb(89, 202, 183);
+    width: 70px;
+    height: 35px;
+    margin-top: 137px;
+    margin-left: 246px
+}
+#modify3{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    line-height: 2.3em;
+    border-radius: 4px;
+    background-color: rgb(89, 202, 183);
+    width: 70px;
+    height: 35px;
+    margin-top: 137px;
+    margin-left: 246px
+}
+
+
+/*-----------------------------반응형 css--------------------------------*/
+
+
+@media(max-width: 800px) {
+
+}
+@media(max-width: 767px) {
+
+}
+@media(max-width: 568px){
+	
+}
+@media(max-width: 320x){
+	
+}

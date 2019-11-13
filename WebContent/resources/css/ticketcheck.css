@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+#center {
+	margin-left: 25%;
+}
+.div_top_title{
+	position: absolute;
+    top: 20%;
+    left: 32%;
+}
+
+#button {
+	display: inline-table;
+	font-size: 14px; 
+	color: rgb(255, 255, 255); 
+	text-align: center;
+	background-color: rgb(89, 202, 183); 
+	width: 60px; 
+	height: 26px;
+	line-height: 2em;
+}
+.button{
+		
+}
+#radio{
+	margin-left: 50%;
+}
+table{
+	border: none;
+}
+th{
+	width: 135px; 
+	height: 45px;
+}
+td{
+	border-bottom: 1px solid #ccc;
+	width: 135px; 
+	height: 45px;
+}
+.set{
+	font-size: 16px;
+	text-align: center; 
+	margin-top: 0.7em 
+}
+.hole{
+	background-color: rgb(255, 255, 255); 
+	border-width: 1px; 
+	border-style: dotted; 
+	border-color: rgb(51, 51, 51); 
+	height: 60px; 
+	width: 1000px; 
+	text-align: center; 
+	vertical-align: center; 
+	margin-bottom: 2%;
+}

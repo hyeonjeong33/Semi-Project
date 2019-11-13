@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+body{
+   display: block;
+}
+.review-block{
+   border-collapse: collapse; /* IE7 and lower */
+    border-spacing: 0;
+    width: 100%;
+    border: solid #ccc 1px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 1px #ccc;
+    -moz-box-shadow: 0 1px 1px #ccc;
+    box-shadow: 0 1px 1px #ccc;
+    margin-bottom: 5%;
+    text-align: center;
+    margin-left: 15%;
+}
+ 
+.review-block{
+   display: block;
+}
+
+.div1{
+   position: absolute;
+   top:20%;
+   left:17%;
+}
+td{
+   border-bottom: 1px dotted #ccc;
+}
+.td-title{
+   height: 50px;
+}
+.td-content{
+   height: 200px;
+}
+.td-thumb{
+   background: url("/Hippe/resources/images/g1.jpg");
+}
+
+/*-------------페이징 해주시져--------------*/
